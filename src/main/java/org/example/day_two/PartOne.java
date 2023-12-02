@@ -3,15 +3,23 @@ package org.example.day_two;
 import org.example.utils.Scanner;
 
 import java.io.*;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 /**
  * @author Saransh Kumar
  */
 
 public class PartOne {
+
+    public static void main(String... args) throws IOException {
+        Scanner sc = new Scanner(new FileReader(System.getenv("INPUT")));
+        PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(System.getenv("OUTPUT"))));
+        Task t = new Task();
+        int T = sc.nextInt();
+        while (T-- > 0)
+            t.solve(sc, pw);
+        pw.close();
+    }
 
     public static class Task {
 
@@ -59,15 +67,5 @@ public class PartOne {
             }
             pw.println(sumOfGameIdsWhichArePossible(input));
         }
-    }
-
-    public static void main(String... args) throws IOException {
-        Scanner sc = new Scanner(new FileReader(System.getenv("INPUT")));
-        PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(System.getenv("OUTPUT"))));
-        Task t = new Task();
-        int T = sc.nextInt();
-        while (T-- > 0)
-            t.solve(sc, pw);
-        pw.close();
     }
 }

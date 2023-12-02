@@ -3,12 +3,23 @@ package org.example.day_one;
 import org.example.utils.Scanner;
 
 import java.io.*;
+import java.util.Arrays;
 
 /**
  * @author Saransh Kumar
  */
 
 public class PartOne {
+
+    public static void main(String... args) throws IOException {
+        Scanner sc = new Scanner(new FileReader(System.getenv("INPUT")));
+        PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(System.getenv("OUTPUT"))));
+        Task t = new Task();
+        int T = sc.nextInt();
+        while (T-- > 0)
+            t.solve(sc, pw);
+        pw.close();
+    }
 
     public static class Task {
 
@@ -31,50 +42,47 @@ public class PartOne {
                     }
                 }
                 String number = String.format("%d%d", firstDigit, lastDigit);
-                System.out.println(number);
                 ans += Long.parseLong(number);
             }
             return ans;
         }
 
         public long calibrationValueSequentialStreamVersion(String[] str) {
-            long ans = 0;
-            for (String s : str) {
-                int firstDigit = s.chars()
-                        .filter(Character::isDigit)
-                        .findFirst()
-                        .orElse(0) - '0';
-                int lastDigit = s.chars()
-                        .filter(Character::isDigit)
-                        .skip(s.chars()
+            return Arrays.stream(str)
+                    .mapToLong(s -> {
+                        int firstDigit = s.chars()
                                 .filter(Character::isDigit)
-                                .count() - 1)
-                        .findFirst()
-                        .orElse(0) - '0';
-                String number = String.format("%d%d", firstDigit, lastDigit);
-                ans += Long.parseLong(number);
-            }
-            return ans;
+                                .findFirst()
+                                .orElse(0) - '0';
+                        int lastDigit = s.chars()
+                                .filter(Character::isDigit)
+                                .skip(s.chars()
+                                        .filter(Character::isDigit)
+                                        .count() - 1)
+                                .findFirst()
+                                .orElse(0) - '0';
+                        String number = String.format("%d%d", firstDigit, lastDigit);
+                        return Long.parseLong(number);
+                    }).sum();
         }
 
         public long calibrationValueParallelStreamVersion(String[] str) {
-            long ans = 0;
-            for (String s : str) {
-                int firstDigit = s.chars().parallel()
-                        .filter(Character::isDigit)
-                        .findFirst()
-                        .orElse(0) - '0';
-                int lastDigit = s.chars().parallel()
-                        .filter(Character::isDigit)
-                        .skip(s.chars().parallel()
+            return Arrays.stream(str).parallel()
+                    .mapToLong(s -> {
+                        int firstDigit = s.chars().parallel()
                                 .filter(Character::isDigit)
-                                .count() - 1)
-                        .findFirst()
-                        .orElse(0) - '0';
-                String number = String.format("%d%d", firstDigit, lastDigit);
-                ans += Long.parseLong(number);
-            }
-            return ans;
+                                .findFirst()
+                                .orElse(0) - '0';
+                        int lastDigit = s.chars().parallel()
+                                .filter(Character::isDigit)
+                                .skip(s.chars()
+                                        .filter(Character::isDigit)
+                                        .count() - 1)
+                                .findFirst()
+                                .orElse(0) - '0';
+                        String number = String.format("%d%d", firstDigit, lastDigit);
+                        return Long.parseLong(number);
+                    }).sum();
         }
 
         public void solve(Scanner sc, PrintWriter pw) throws IOException {
@@ -102,15 +110,5 @@ public class PartOne {
             System.out.println("Total Time taken by Parallel Stream version: " + ((endTime - startTime) / 1000) + " ms");
             pw.println("Parallel Stream version answer: " + answer);
         }
-    }
-
-    public static void main(String... args) throws IOException {
-        Scanner sc = new Scanner(new FileReader(System.getenv("INPUT")));
-        PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(System.getenv("OUTPUT"))));
-        Task t = new Task();
-        int T = sc.nextInt();
-        while (T-- > 0)
-            t.solve(sc, pw);
-        pw.close();
     }
 }

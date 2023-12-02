@@ -11,6 +11,16 @@ import java.util.Map;
 
 public class PartTwo {
 
+    public static void main(String... args) throws IOException {
+        Scanner sc = new Scanner(new FileReader(System.getenv("INPUT")));
+        PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(System.getenv("OUTPUT"))));
+        Task t = new Task();
+        int T = sc.nextInt();
+        while (T-- > 0)
+            t.solve(sc, pw);
+        pw.close();
+    }
+
     public static class Task {
 
         private final Map<String, Integer> colorMapping = Map.of(
@@ -54,15 +64,5 @@ public class PartTwo {
             }
             pw.println(sumOfGameIdsWhichArePossible(input));
         }
-    }
-
-    public static void main(String... args) throws IOException {
-        Scanner sc = new Scanner(new FileReader(System.getenv("INPUT")));
-        PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(System.getenv("OUTPUT"))));
-        Task t = new Task();
-        int T = sc.nextInt();
-        while (T-- > 0)
-            t.solve(sc, pw);
-        pw.close();
     }
 }

@@ -11,6 +11,16 @@ import java.util.Map;
 
 public class PartTwo {
 
+    public static void main(String... args) throws IOException {
+        Scanner sc = new Scanner(new FileReader(System.getenv("INPUT")));
+        PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(System.getenv("OUTPUT"))));
+        Task t = new Task();
+        int T = sc.nextInt();
+        while (T-- > 0)
+            t.solve(sc, pw);
+        pw.close();
+    }
+
     public static class Task {
 
         private final Map<String, Integer> map = Map.of(
@@ -25,7 +35,7 @@ public class PartTwo {
                 "nine", 9
         );
 
-        public long calibrationValue(String[] str, int n) {
+        public long calibrationValue(String[] str) {
             long ans = 0;
             for (String s : str) {
                 int firstDigit = 0, lastDigit = 0;
@@ -56,7 +66,8 @@ public class PartTwo {
                 StringBuilder sb = new StringBuilder(s);
                 sb.reverse();
 
-                wordDigitIndex = Integer.MAX_VALUE; digitIndex = Integer.MAX_VALUE;
+                wordDigitIndex = Integer.MAX_VALUE;
+                digitIndex = Integer.MAX_VALUE;
                 for (String digit : map.keySet()) {
                     StringBuilder _digit = new StringBuilder(digit);
                     _digit.reverse();
@@ -93,17 +104,7 @@ public class PartTwo {
             for (int i = 0; i < n; i++) {
                 str[i] = sc.nextLine();
             }
-            pw.println(calibrationValue(str, n));
+            pw.println(calibrationValue(str));
         }
-    }
-
-    public static void main(String... args) throws IOException {
-        Scanner sc = new Scanner(new FileReader(System.getenv("INPUT")));
-        PrintWriter pw = new PrintWriter(new BufferedOutputStream(new FileOutputStream(System.getenv("OUTPUT"))));
-        Task t = new Task();
-        int T = sc.nextInt();
-        while (T-- > 0)
-            t.solve(sc, pw);
-        pw.close();
     }
 }
